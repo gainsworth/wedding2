@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>George and Cordelia's Wedding</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/main.css')}}">
+</head>
+<body>
+    <img src="https://dynamic-media-cdn.tripadvisor.com/media/photo-o/28/95/13/6c/coulsdon-manor-exterior.jpg?w=1100&h=-1&s=1">
+    <br>
+    <form action="other-shit" method="post">
+        {% for message in get_flashed_messages()%}
+            <p>{{ message }}</p>
+        {% endfor %}
+        <br>
+        <input type="text" name="name_input">
+        <br>
+        <input type="submit" value="GREET" id="greet">
+    </form>
+</body>
+</html>
