@@ -1,6 +1,17 @@
 body {
-    background-color: slategray;
+    background-color: white;
     text-align:center;
+}
+
+@font-face {
+    font-family: 'Welcome'; /* Provide a unique font name */
+    src: url('fonts/welcome_font.otf') format('opentype'), /* Replace with the actual file path */
+         url('fonts/welcome_font.ttf') format('truetype'); /* Add more file formats if needed */
+}
+
+h1, h2, h3, h4, h5, h6 {
+    font-family: 'Welcome', cursive; /* Use the font name or font stack */
+    font-size: 140px;
 }
 
 p {
