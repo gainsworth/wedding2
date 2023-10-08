@@ -11,7 +11,7 @@ body {
 
 h1, h2, h3, h4, h5, h6 {
     font-family: 'Welcome', cursive; /* Use the font name or font stack */
-    font-size: 7vw;
+    font-size: 12vw;
 }
 
 p {
