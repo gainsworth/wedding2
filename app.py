@@ -7,7 +7,7 @@ app = Flask(__name__)
 # Use SQLite for simplicity
 app.config['SQLALCHEMY_DATABASE_URI'] = 'postgres://eptvybculedrhx' \
                                         ':6e1e6290f596b73b6888d884c2b33e0fecb3759571726b9be982a313f8c40eb5@ec2-34-242' \
-                                        '-154-118.eu-west-1.compute.amazonaws.com:5432/dr0rgp061as0v '
+                                        '-154-118.eu-west-1.compute.amazonaws.com:5432/dr0rgp061as0v'
 # app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///rsvp.db'
 db = SQLAlchemy(app)
 
