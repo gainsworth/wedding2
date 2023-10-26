@@ -1,54 +1,309 @@
-body {
-    background-color: white;
-    text-align:center;
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Poppins', sans-serif;
+}
+.rsvp{
+    min-height: 100vh;
+    width: 100%;
+    background-image: linear-gradient(rgba(20,255,255,0.7),rgba(255,255,255,0.7)),url(../images/marmaris.png);
+    background-position: 50% 90%;
+    background-size: cover;
+    position: relative;
+    overflow: hidden;
+}
+.header{
+    min-height: 100vh;
+    width: 100%;
+    background-image: linear-gradient(rgba(255,255,255,0.7),rgba(255,255,255,0.7)),url(../images/gandc.png);
+    background-position: 50% 60%;
+    background-size: cover;
+    position: relative;
+    overflow: hidden;
 }
 
-@font-face {
-    font-family: 'Welcome'; /* Provide a unique font name */
-    src: url('fonts/welcome_font.otf') format('opentype'), /* Replace with the actual file path */
-         url('fonts/welcome_font.ttf') format('truetype'); /* Add more file formats if needed */
+nav{
+    display: flex;
+    padding: 2% 4%;
+    justify-content: space-between;
+    align-items: center;
+}
+nav img{
+    width: 100px;
+}
+.nav-links{
+    flex: 1;
+    text-align: right;
+}
+.nav-links ul li{
+    list-style: none;
+    display: inline-block;
+    padding: 8px 25px;
+    position: relative;
+}
+.nav-links ul li a{
+    color: #000;
+    text-decoration: none;
+    font-size: 25px;
+}
+.nav-links ul li::after{
+    content: '';
+    width: 0%;
+    height: 2px;
+    background: #000;
+    display: block;
+    margin: auto;
+    transition: .5s;
+}
+.nav-links ul li:hover::after{
+    width: 100%;
+}
+nav .fa{
+    display: none;
 }
 
-h1, h2, h3, h4, h5, h6 {
-    font-family: 'Welcome', cursive; /* Use the font name or font stack */
-    font-size: 12vw;
-}
-
-p {
-    color: white;
-    font-family: Shanti;
-    font-size:1.2em;
-    margin: 20px;
-}
-
-img {
-    margin: 60px 0 30px 0;
-    width: 250px;
-}
-
-input {
-    width: 300px;
-    height: 50px;
-    margin: 20px;
-    border: none;
-    border-radius: 10px;
-    font-family: Shanti;
+.text-box{
+    width: 90%;
+    color: #000;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
     text-align: center;
-    font-size: 1.3em;
 }
-
-input:focus {
-    border: solid 5px #00FFCE;
-    outline: none;
+.text-box h1{
+    font-size: 62px;
+    font-family: 'Courgette', cursive;
 }
-
-#greet {
-    background-color: palevioletred;
-    color: white;
-    width: 200px;
+.text-box p{
+    margin: 20px 0 40px;
+    font-size: 25px;
+    color: #000;
 }
-
-#greet:hover {
-    background-color: mediumvioletred;
+.hero-btn {
+    display: inline-block;
+    text-align: center;
+    text-decoration: none;
+    bottom: 27vh;
+    left: 50vh;
+    right: 50vh;
+    color: #000;
+    border: 1px solid #000;
+    padding: 24px 68px;
+    font-size: 26px;
+    background: transparent;
+    position: absolute;
     cursor: pointer;
+    transition: 1s;
+}
+
+.hero-btn:hover{
+    border: 1px solid #fff;
+    background: #722F37;
+    color: #fff
+}
+.footer {
+    color: #777; /* Text color for the footer */
+    text-align: center; /* Center-align the text */
+    padding: 0px 0; /* Add some padding to the top and bottom for spacing */
+    position: fixed; /* Fixed position to keep it at the bottom */
+    width: 100%; /* Full width */
+    bottom: 0; /* Position it at the bottom of the viewport */
+}
+.fa-heart-o{
+    color: #f44336;
+}
+
+
+@media(max-width: 700px)
+{
+.header{
+    background-image: linear-gradient(rgba(255,255,255,0.7),rgba(255,255,255,0.7)),url(images/gandc_cropped.png);
+    background-position: 20% 0%;
+    position: relative;
+    overflow: hidden;
+}
+
+   .nav-links ul li
+    {
+        display: block;
+    }
+
+    .nav-links ul li a{
+    color: #fff;
+    text-decoration: none;
+    font-size: 25px;
+}
+
+    .nav-links
+    {
+        position: fixed;
+        background: #000;
+        height: 100vh;
+        width: 200px;
+        top: 0;
+        right: -200px;
+        text-align: left;
+        z-index: 2;
+        transition: 0.5s;
+    }
+    .nav-links ul{
+        padding: 30px;
+    }
+    nav .fa-close{
+        display: block;
+        color: #fff;
+        margin: 10px;
+        font-size: 22px;
+        cursor: pointer;
+    }
+    nav .fa-bars{
+        display: block;
+        color: #000;
+        margin: 10px;
+        font-size: 22px;
+        cursor: pointer;
+    }
+    .text-box h1{
+        font-size: 40px;
+        color: #000;
+        top: -200px;
+    }
+.hero-btn {
+    display: inline-block;
+    text-align: center;
+    text-decoration: none;
+    color: #fff;
+    border: 1px solid #fff;
+    padding: 12px 34px;
+    bottom: 5vh;
+    left: 5vh;
+    right: 5vh;
+    font-size: 20px;
+    background: #722F37;
+    position: absolute;
+    cursor: pointer;
+    transition: 1s;
+}
+.footer {
+    color: #777; /* Text color for the footer */
+    text-align: center; /* Center-align the text */
+    padding: 0px 0; /* Add some padding to the top and bottom for spacing */
+    position: fixed; /* Fixed position to keep it at the bottom */
+    width: 100%; /* Full width */
+    bottom: 0.5vh; /* Position it at the bottom of the viewport */
+}
+}
+.container{
+    width: 100%;
+    min-height: 100vh;
+    background: linear-gradient(45deg, transparent, #009688);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 5%;
+}
+
+.signup-box{
+    display: flex;
+    /* align-items: center; */
+    width: 80%;
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+.signup-box {
+    height: 70%;
+    justify-content: center;
+}
+.col-1, .col-2{
+    /* flex-grow: 1; */
+}
+.col-1 img{
+    width: 100%;
+    display: block;
+}
+.col-2{
+    background: #fff;
+    padding: 20px 4%;
+    color: #333;
+    /* min-width: 250px; */
+}
+
+.col-2 {
+    height: 100%;
+}
+.col-2 h2{
+    font-weight: 600;
+    text-align: center;
+}
+.col-2 span{
+    font-size: 12px;
+}
+.col-2 span a{
+    text-decoration: none;
+    color: #ef005d;
+    font-weight: 500;
+}
+.google-link{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 10px;
+    border-radius: 4px;
+    border: 1px solid #ef005d;
+    text-decoration: none;
+    color: #555;
+    font-size: 13px;
+    margin: 20px 0;
+}
+.google-link img{
+    width: 20px;
+    margin-right: 10px;
+}
+.col-2 h4{
+    text-align: center;
+    font-weight: 400;
+    margin-bottom: 10px;
+}
+.input-field{
+    padding: 10px;
+    border-radius: 4px;
+    border: 1px solid #ef005d;
+    outline: none;
+    display: block;
+    width: 100%;
+    margin: 5px 0 10px;
+}
+form label{
+    font-weight: 500;
+    font-size: 12px;
+}
+.row{
+    display: flex;
+    align-items: center;
+}
+.row input{
+    margin-right: 6px;
+}
+.col-2 form button{
+    padding: 10px;
+    border-radius: 4px;
+    border: 1px solid #ef005d;
+    outline: none;
+    display: block;
+    width: 100%;
+    margin: 18px 0 10px;
+    background: #ef005d;
+    color: #fff;
+    cursor: pointer;
+}
+.form-row {
+    display: flex;
+    align-items: center; /* Vertically center-align the elements within the div */
+    margin-bottom: 10px; /* Add some spacing between divs */
+}
+.input-field {
+    margin-right: 10px;
 }

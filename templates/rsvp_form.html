@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+{% block content %}
+    <section class="rsvp">
+        {% include 'navbar.html' %}
+    <div class="signup-box">
+        <div class="col-2">
+            <h2>RSVP</h2>
+            <form method="post" action="/submit_rsvp">
+                {% for member in family_members %}
+                <div class="form-row">
+                    <input class="input-field" type="text" name="first_name_{{ member.id }}" value="{{ member.first_name }}">
+                    <input class="input-field" type="text" name="last_name_{{ member.id }}" value="{{ member.last_name or '' }}">
+                    <label>
+                        <input class="input-field" type="checkbox" name="attending_{{ member.id }}" value="1">
+                    </label>
+                </div>
+                {% endfor %}
+                <button type="submit">Submit</button>
+            </form>
+
+
+        </div>
+    </div>
+
+</div>
+        {% endblock %}

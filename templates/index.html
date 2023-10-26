@@ -1,0 +1,12 @@
+{% extends 'base.html' %}
+{% block content %}
+    <section class="header">
+
+        {% include 'navbar.html' %}
+
+        <div class="text-box">
+            <h1>George & Cordelia's Wedding</h1>
+            <p>It's gonna be a laugh - it would be amazing if you could join us!</p>
+        </div>
+        <a href="{{ url_for('rsvp') }}" class="hero-btn">Click here to RSVP</a>
+        {% endblock %}
