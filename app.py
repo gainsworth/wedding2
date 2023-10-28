@@ -1,11 +1,39 @@
 from flask import Flask, render_template, request, redirect, url_for
 from flask_sqlalchemy import SQLAlchemy
 from datetime import datetime
+import os
+from dotenv import load_dotenv
+from flask import Flask
+import smtplib
+from email.message import EmailMessage
+
+load_dotenv()
 
 app = Flask(__name__)
 
+
+def send_email(name, party_string):
+
+    body = f'Hi {name.title()},\n\n' \
+               f'Thank you for submitting your RSVP. We look forward to seeing {party_string} there!\n\n' \
+               f'Kind regards,\n' \
+               f'George and Cordelia'
+    msg = EmailMessage()
+    msg.set_content(body)
+    msg['Subject'] = 'See you at the wedding!'
+    msg['From'] = 'info@georgeandcordelia.co.uk'
+    msg['To'] = 'darknesscrazyman@hotmail.com'
+    # Establish a connection to the Gmail SMTP server.
+    # You might need to allow "less secure apps" in your Gmail settings.
+    server = smtplib.SMTP('smtp.zoho.eu', 587)
+    server.starttls()  # Upgrade the connection to encrypted SSL/TLS
+    server.login(os.getenv('MAIL_USERNAME'), os.getenv('MAIL_PASSWORD'))
+    server.send_message(msg)
+    server.quit()
+
 # Use SQLite for simplicity
-app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://eptvybculedrhx:6e1e6290f596b73b6888d884c2b33e0fecb3759571726b9be982a313f8c40eb5@ec2-34-242-154-118.eu-west-1.compute.amazonaws.com:5432/dr0rgp061as0v'
+app.config['SQLALCHEMY_DATABASE_URI'] = os.getenv('DATABASE_URI')
+
 # app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///rsvp.db'
 db = SQLAlchemy(app)
 
@@ -75,6 +103,7 @@ def rsvp():
 
 @app.route('/submit_rsvp', methods=['POST'])
 def submit_rsvp():
+    party = []
     for key in request.form:
         if key.startswith('attending_'):
             member_id = int(key.split('_')[1])
@@ -82,18 +111,25 @@ def submit_rsvp():
             updated_first_name = request.form['first_name_{}'.format(member_id)]
             updated_last_name = request.form.get('last_name_{}'.format(member_id))
 
+            if attending:
+                party.append(updated_first_name)
+
             new_rsvp = RSVP(guest_id=member_id, attending=attending,
                             updated_first_name=updated_first_name, updated_last_name=updated_last_name)
             db.session.add(new_rsvp)
 
     db.session.commit()
 
-    return redirect(url_for('thank_you'))
+    party_string = ', '.join(['you', *party[1:-1]]) + f' and {party[-1]}'
+    send_email(party[0], party_string)
+
+    return redirect(url_for('thank_you', party_string=party_string))
 
 
 @app.route('/thank_you')
 def thank_you():
-    return render_template('thank_you.html')
+    party_string = request.args.get('party_string', default="")
+    return render_template('thank_you.html', party_string=party_string)
 
 
 if __name__ == '__main__':

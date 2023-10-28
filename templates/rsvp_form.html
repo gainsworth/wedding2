@@ -11,7 +11,7 @@
                     <input class="input-field" type="text" name="first_name_{{ member.id }}" value="{{ member.first_name }}">
                     <input class="input-field" type="text" name="last_name_{{ member.id }}" value="{{ member.last_name or '' }}">
                     <label>
-                        <input class="input-field" type="checkbox" name="attending_{{ member.id }}" value="1">
+                        <input class="input-field" type="checkbox" name="attending_{{ member.id }}" value="1" checked>
                     </label>
                 </div>
                 {% endfor %}
