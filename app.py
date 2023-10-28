@@ -96,7 +96,7 @@ def rsvp():
                 return redirect(url_for('thank_you'))
             return render_template('rsvp_form.html', family_members=family_members)
         else:
-            return redirect(url_for('thank_you'))
+            return redirect(url_for('thank_you', party_string='you'))
 
     return render_template('rsvp_initial.html')
 
