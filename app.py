@@ -14,12 +14,11 @@ app = Flask(__name__)
 
 def send_email(name, party_string):
 
-    body = f'Hi {name.title()},\n\n' \
-               f'Thank you for submitting your RSVP. We look forward to seeing {party_string} there!\n\n' \
-               f'Kind regards,\n' \
-               f'George and Cordelia'
+    with open('templates/thank_you_email.html', encoding='utf8') as infile:
+        email_html = infile.read()
+    body = email_html.format(name, party_string)
     msg = EmailMessage()
-    msg.set_content(body)
+    msg.add_alternative(body, subtype='html')
     msg['Subject'] = 'See you at the wedding!'
     msg['From'] = 'info@georgeandcordelia.co.uk'
     msg['To'] = 'darknesscrazyman@hotmail.com'
@@ -74,6 +73,11 @@ def index():
 @app.route("/details")
 def details():
     return render_template("details.html")
+
+
+@app.route("/terms_and_conditions")
+def terms_and_conditions():
+    return render_template("terms_and_conditions.html")
 
 
 @app.route('/rsvp_initial', methods=['GET', 'POST'])
