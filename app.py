@@ -156,16 +156,23 @@ def rsvp():
         db.session.add(new_entry)
         db.session.commit()
 
-        guest_search = Guest.query.filter_by(first_name=first_name, last_name=last_name, enterable=True).first()
+        guest_search = Guest.query.filter(Guest.first_name == first_name,
+                                          Guest.last_name == last_name,
+                                          Guest.enterable != 'No').first()
         if not guest_search:
-            guest_search = Guest.query.filter_by(first_name=first_name, last_name='', enterable=True).first()
+            guest_search = Guest.query.filter(Guest.first_name == first_name,
+                                              Guest.last_name == '',
+                                              Guest.enterable != 'No').first()
         if not guest_search:
-            guest_search = Guest.query.filter_by(last_name_searchable='Yes', last_name=last_name, enterable=True).first()
+            guest_search = Guest.query.filter(Guest.last_name_searchable == 'Yes',
+                                              Guest.last_name == last_name,
+                                              Guest.enterable != 'No').first()
         guest = guest_search
         if guest:
             family_members = Guest.query.filter_by(family_id=guest.family_id).all()
             if len(family_members) == 1:
-                if [x.email for x in AllEntries.query.all()].count(email) == 1 or email == 'darknesscrazyman@hotmail.com':
+                if [x.email for x in AllEntries.query.all()].count(email) == 1 \
+                        or email == 'darknesscrazyman@hotmail.com':
                     send_email(first_name, 'you', email)
                     send_george_email(first_name, 'you', attach_csvs=True)
                 new_rsvp = RSVP(guest_id=guest.id, attending=True,
