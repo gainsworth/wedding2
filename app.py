@@ -144,7 +144,7 @@ def terms_and_conditions():
     return render_template("terms_and_conditions.html")
 
 
-@app.route('/rsvp_initial', methods=['GET', 'POST'])
+@app.route('/rsvp', methods=['GET', 'POST'])
 def rsvp():
     if request.method == 'POST':
         first_name = request.form['first_name']
