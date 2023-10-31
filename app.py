@@ -156,11 +156,11 @@ def rsvp():
         db.session.add(new_entry)
         db.session.commit()
 
-        guest_search = Guest.query.filter_by(first_name=first_name, last_name=last_name).first()
+        guest_search = Guest.query.filter_by(first_name=first_name, last_name=last_name, enterable=True).first()
         if not guest_search:
-            guest_search = Guest.query.filter_by(first_name=first_name, last_name='').first()
+            guest_search = Guest.query.filter_by(first_name=first_name, last_name='', enterable=True).first()
         if not guest_search:
-            guest_search = Guest.query.filter_by(last_name_searchable='Yes', last_name=last_name).first()
+            guest_search = Guest.query.filter_by(last_name_searchable='Yes', last_name=last_name, enterable=True).first()
         guest = guest_search
         if guest:
             family_members = Guest.query.filter_by(family_id=guest.family_id).all()
