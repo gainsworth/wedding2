@@ -1,11 +1,32 @@
 {% extends 'base.html' %}
 {% block content %}
-    <section class="header">
+    <section class="details-header">
 
         {% include 'navbar.html' %}
+    <section class="hotel-pic">
 
-        <div class="text-box">
-            <h1>Details</h1>
-            <p>This page is yet to be finished</p>
+    </section>
+    <section class="details">
+        <h1>On the day</h1>
+        <p>Please refer to the invitation for details of what to expect on the day. If you have any questions, please contact us at <a href="mailto:info@georgeandcordelia.co.uk" style="color: #3498db; text-decoration: underline;">info@georgeandcordelia.co.uk</a>.</p>
+        <div class="info-row">
+            <div class="info-col">
+                <h3>When</h3>
+                <p>27th January 2024</p>
+            </div>
+            <div class="info-col">
+                <h3>Where</h3>
+                <p>Coulsdon Manor Hotel<br>
+                Coulsdon Ct Rd<br>
+                Old Coulsdon<br>
+                Coulsdon<br>
+                CR5 2LL<br>
+                020 8668 0414</p>
+            </div>
+            <div class="info-col">
+                <h3>Who</h3>
+                <p>Please <a href="{{ url_for('rsvp') }}" style="color: #3498db; text-decoration: underline;">RSVP</a> to confirm attendance. Due to venue capacity, we regretfully cannot accommodate +1s, unless we have spoken to you directly and made an exception. Thank you for your understanding.</p>
+            </div>
         </div>
+    </section>
                 {% endblock %}

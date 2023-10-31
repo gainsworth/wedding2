@@ -6,13 +6,77 @@ from dotenv import load_dotenv
 from flask import Flask
 import smtplib
 from email.message import EmailMessage
+import csv
+import io
+from email.mime.text import MIMEText
+from email.mime.multipart import MIMEMultipart
+from email.mime.base import MIMEBase
+from email import encoders
+
+
+def generate_csv_attachment(model, headers, filename):
+    """Generate an in-memory CSV attachment from a given SQLAlchemy model"""
+    output = io.StringIO()
+    writer = csv.writer(output)
+
+    # Write the header
+    writer.writerow(headers)
+
+    # Query and write the rows
+    rows = model.query.all()
+    for row in rows:
+        writer.writerow([getattr(row, header) for header in headers])
+
+    # Convert the in-memory text file to bytes for attachment
+    output.seek(0)
+    part = MIMEBase('application', 'octet-stream')
+    part.set_payload(output.getvalue().encode('utf-8'))
+    encoders.encode_base64(part)
+    part.add_header('Content-Disposition', f'attachment; filename="{filename}"')
+
+    return part
+
+
+def send_george_email(name, party_string, attach_csvs=True):
+
+    # Create a multipart message
+    msg = MIMEMultipart()
+    msg['Subject'] = 'See you at the wedding!'
+    msg['From'] = 'info@georgeandcordelia.co.uk'
+    msg['To'] = 'george.ainsworth@hotmail.co.uk'
+
+    # Add your HTML message
+    with open('templates/thank_you_email.html', encoding='utf8') as infile:
+        email_html = infile.read()
+    body = email_html.format(name, party_string)
+    msg.attach(MIMEText(body, 'html'))
+
+    # If we need to attach CSVs
+    if attach_csvs:
+        # Attach AllEntries CSV
+        all_entries_headers = ["id", "first_name", "last_name", "email", "time_of_entry"]
+        all_entries_part = generate_csv_attachment(AllEntries, all_entries_headers, "all_entries.csv")
+        msg.attach(all_entries_part)
+
+        # Attach RSVP CSV
+        rsvp_headers = ["id", "guest_id", "attending", "updated_first_name", "updated_last_name"]
+        rsvp_part = generate_csv_attachment(RSVP, rsvp_headers, "rsvp.csv")
+        msg.attach(rsvp_part)
+
+    # Now, the sending part remains unchanged:
+    server = smtplib.SMTP('smtp.zoho.eu', 587)
+    server.starttls()
+    server.login(os.getenv('MAIL_USERNAME'), os.getenv('MAIL_PASSWORD'))
+    server.send_message(msg)
+    server.quit()
+
 
 load_dotenv()
 
 app = Flask(__name__)
 
 
-def send_email(name, party_string):
+def send_email(name, party_string, email):
 
     with open('templates/thank_you_email.html', encoding='utf8') as infile:
         email_html = infile.read()
@@ -21,7 +85,7 @@ def send_email(name, party_string):
     msg.add_alternative(body, subtype='html')
     msg['Subject'] = 'See you at the wedding!'
     msg['From'] = 'info@georgeandcordelia.co.uk'
-    msg['To'] = 'darknesscrazyman@hotmail.com'
+    msg['To'] = email
     # Establish a connection to the Gmail SMTP server.
     # You might need to allow "less secure apps" in your Gmail settings.
     server = smtplib.SMTP('smtp.zoho.eu', 587)
@@ -92,15 +156,32 @@ def rsvp():
         db.session.add(new_entry)
         db.session.commit()
 
-        guest = Guest.query.filter_by(first_name=first_name, last_name=last_name).first()
-
+        guest_search = Guest.query.filter_by(first_name=first_name, last_name=last_name).first()
+        if not guest_search:
+            guest_search = Guest.query.filter_by(first_name=first_name, last_name='').first()
+        if not guest_search:
+            guest_search = Guest.query.filter_by(last_name_searchable='Yes', last_name=last_name).first()
+        guest = guest_search
         if guest:
             family_members = Guest.query.filter_by(family_id=guest.family_id).all()
             if len(family_members) == 1:
-                return redirect(url_for('thank_you'))
-            return render_template('rsvp_form.html', family_members=family_members)
+                if [x.email for x in AllEntries.query.all()].count(email) == 1 or email == 'darknesscrazyman@hotmail.com':
+                    send_email(first_name, 'you', email)
+                    send_george_email(first_name, 'you', attach_csvs=True)
+                new_rsvp = RSVP(guest_id=guest.id, attending=True,
+                                updated_first_name=first_name, updated_last_name=last_name)
+                db.session.add(new_rsvp)
+                return render_template('thank_you.html', party_string='you')
+            return render_template('rsvp_form.html', family_members=family_members, email=email)
         else:
-            return redirect(url_for('thank_you', party_string='you'))
+            if [x.email for x in AllEntries.query.all()].count(email) == 1 or email == 'darknesscrazyman@hotmail.com':
+                send_email(first_name, 'you', email)
+                send_george_email(first_name, 'you', attach_csvs=True)
+            new_rsvp = RSVP(guest_id=-1, attending=True,
+                            updated_first_name=first_name, updated_last_name=last_name)
+            db.session.add(new_rsvp)
+            return render_template('thank_you.html', party_string='you')
+            # return redirect(url_for('thank_you', party_string='you'))
 
     return render_template('rsvp_initial.html')
 
@@ -124,16 +205,20 @@ def submit_rsvp():
 
     db.session.commit()
 
+    email = request.form['email']
     party_string = ', '.join(['you', *party[1:-1]]) + f' and {party[-1]}'
-    send_email(party[0], party_string)
+    if [x.email for x in AllEntries.query.all()].count(email) == 1 or email == 'darknesscrazyman@hotmail.com':
+        send_email(party[0], party_string, email)
+        send_george_email(party[0], party_string, attach_csvs=True)
 
-    return redirect(url_for('thank_you', party_string=party_string))
-
-
-@app.route('/thank_you')
-def thank_you():
-    party_string = request.args.get('party_string', default="")
     return render_template('thank_you.html', party_string=party_string)
+    # return redirect(url_for('thank_you', party_string=party_string))
+
+
+# @app.route('/thank_you')
+# def thank_you():
+#     party_string = request.args.get('party_string', default="")
+#     return render_template('thank_you.html', party_string=party_string)
 
 
 if __name__ == '__main__':

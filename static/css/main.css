@@ -8,7 +8,7 @@
     min-height: 100vh;
     width: 100%;
     background-image: linear-gradient(rgba(20,255,255,0.7),rgba(255,255,255,0.7)),url(../images/marmaris.png);
-    background-position: 50% 90%;
+    background-position: 0% 90%;
     background-size: cover;
     position: relative;
     overflow: hidden;
@@ -307,4 +307,69 @@ form label{
 }
 .input-field {
     margin-right: 10px;
+}
+
+/*---------- details --------*/
+.details{
+    width: 80%;
+    margin: auto;
+    text-align: center;
+    padding-top: 5%;
+}
+h1{
+    font-size: 36px;
+    font-weight: 600;
+    font-family: 'Courgette',cursive;
+}
+p{
+    color: #777;
+    font-size: 14px;
+    font-weight: 300;
+    line-height: 22px;
+    padding: 10px;
+}
+.info-row{
+    margin-top: 5%;
+    display: flex;
+    justify-content: space-between;
+}
+
+.info-col{
+    flex-basis: 31%;
+    background: #fff3f3;
+    border-radius: 10px;
+    margin-bottom: 5%;
+    padding: 20px 12px;
+    box-sizing: border-box;
+    transition: .5s;
+}
+h3{
+    text-align: center;
+    font-weight: 600;
+    margin: 10px 0;
+}
+.info-col:hover{
+    box-shadow: 0 0 20px 0px rgba(0, 0, 0, 0.2);
+}
+
+@media (max-width:700px){
+    .info-row{
+        flex-direction: column;
+    }
+}
+.hotel-pic {
+    height: 50vh;
+    width: 70%;
+    background-image: url(../images/coulsdon-manor-exterior.png);
+    background-position: center;
+    background-size: cover;
+    text-align: center;
+    color: #fff;
+    margin: auto;
+    border: 3px solid #722F37;
+
+.details-header{
+}
+.details h1 {
+    font-family: 'Courgette',cursive;
 }
