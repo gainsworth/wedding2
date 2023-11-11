@@ -1,9 +1,9 @@
 from flask import Flask, render_template, request, redirect, url_for
 from flask_sqlalchemy import SQLAlchemy
+from sqlalchemy import or_
 from datetime import datetime
 import os
 from dotenv import load_dotenv
-from flask import Flask
 import smtplib
 from email.message import EmailMessage
 import csv
@@ -129,7 +129,7 @@ class AllEntries(db.Model):
     time_of_entry = db.Column(db.String, nullable=True)
 
 
-@app.route("/")
+@app.route("/shit_home_page")
 def index():
     return render_template("index.html")
 
@@ -144,11 +144,11 @@ def terms_and_conditions():
     return render_template("terms_and_conditions.html")
 
 
-@app.route('/rsvp', methods=['GET', 'POST'])
+@app.route('/', methods=['GET', 'POST'])
 def rsvp():
     if request.method == 'POST':
-        first_name = request.form['first_name']
-        last_name = request.form['last_name']
+        first_name = request.form['first_name'].title().strip()
+        last_name = request.form['last_name'].title().strip()
         email = request.form['email']
 
         new_entry = AllEntries(first_name=first_name, last_name=last_name,
@@ -156,13 +156,17 @@ def rsvp():
         db.session.add(new_entry)
         db.session.commit()
 
-        guest_search = Guest.query.filter(Guest.first_name == first_name,
-                                          Guest.last_name == last_name,
-                                          Guest.enterable != 'No').first()
+        guest_search = Guest.query.filter(
+            or_(Guest.first_name == first_name, Guest.alternative_first_name == first_name),
+            Guest.last_name == last_name,
+            Guest.enterable != 'No').first()
+
         if not guest_search:
-            guest_search = Guest.query.filter(Guest.first_name == first_name,
-                                              Guest.last_name == '',
-                                              Guest.enterable != 'No').first()
+            guest_search = Guest.query.filter(
+                or_(Guest.first_name == first_name, Guest.alternative_first_name == first_name),
+                Guest.last_name == '',
+                Guest.enterable != 'No').first()
+
         if not guest_search:
             guest_search = Guest.query.filter(Guest.last_name_searchable == 'Yes',
                                               Guest.last_name == last_name,
@@ -213,7 +217,7 @@ def submit_rsvp():
     db.session.commit()
 
     email = request.form['email']
-    party_string = ', '.join(['you', *party[1:-1]]) + f' and {party[-1]}'
+    party_string = ', '.join(['you', *party[1:-1]]) + f'{" and " + party[-1] if len(party) > 1 else ""}'
     if [x.email for x in AllEntries.query.all()].count(email) == 1 or email == 'darknesscrazyman@hotmail.com':
         send_email(party[0], party_string, email)
         send_george_email(party[0], party_string, attach_csvs=True)
