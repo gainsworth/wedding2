@@ -1,6 +1,7 @@
 from flask import Flask, render_template, request
 from flask_migrate import Migrate
 from flask_sqlalchemy import SQLAlchemy
+from flask_talisman import Talisman
 from sqlalchemy import or_
 from datetime import datetime
 import os
@@ -76,6 +77,7 @@ def send_george_email(name, party_string, attach_csvs=True):
 load_dotenv()
 
 app = Flask(__name__)
+Talisman(app)
 
 
 def send_email(name, party_string, email):
