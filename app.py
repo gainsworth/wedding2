@@ -214,6 +214,7 @@ def rsvp():
 def submit_rsvp():
     party = []
     main_id = request.form['main_id']
+    email = request.form['email']
     for key in request.form:
         if key.startswith('attending_'):
             member_id = int(key.split('_')[1])
@@ -229,12 +230,11 @@ def submit_rsvp():
                 print(party)
 
             new_rsvp = RSVP(guest_id=member_id, attending=attending,
-                            updated_first_name=updated_first_name, updated_last_name=updated_last_name)
+                            updated_first_name=updated_first_name, updated_last_name=updated_last_name, email=email)
             db.session.add(new_rsvp)
 
     db.session.commit()
 
-    email = request.form['email']
     party.sort(key=lambda k: 0 if k == 'you' else 1)
     party_string = ', '.join(party[:-1]) + f'{" and " + party[-1] if len(party) > 1 else ""}'
     if [x.email for x in AllEntries.query.all()].count(email) == 1 or email == 'darknesscrazyman@hotmail.com':
