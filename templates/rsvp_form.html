@@ -5,12 +5,15 @@
     <div class="signup-box">
         <div class="col-2">
             <h2>Who's coming?</h2>
+            <h3>Untick whoever cannot attend</h3>
+            <h3>Amend names to preference</h3>
             <form method="post" action="/submit_rsvp">
                 <input type="hidden" name="email" value="{{ email }}">
+                <input type="hidden" name="main_id" value="{{ main_id }}">
                 {% for member in family_members %}
                 <div class="form-row">
-                    <input class="input-field" type="text" name="first_name_{{ member.id }}" value="{{ member.first_name }}">
-                    <input class="input-field" type="text" name="last_name_{{ member.id }}" value="{{ member.last_name or '' }}">
+                    <input class="input-field" type="text" placeholder="Enter first name here" name="first_name_{{ member.id }}" value="{{ member.first_name }}">
+                    <input class="input-field" type="text" placeholder="Enter last name here" name="last_name_{{ member.id }}" value="{{ member.last_name or '' }}">
                     <label>
                         <input class="input-field" type="checkbox" name="attending_{{ member.id }}" value="1" checked>
                     </label>
