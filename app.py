@@ -61,7 +61,7 @@ def send_george_email(name, party_string, attach_csvs=True):
         msg.attach(all_entries_part)
 
         # Attach RSVP CSV
-        rsvp_headers = ["id", "guest_id", "attending", "updated_first_name", "updated_last_name"]
+        rsvp_headers = ["id", "guest_id", "attending", "updated_first_name", "updated_last_name", "email"]
         # noinspection PyTypeChecker
         rsvp_part = generate_csv_attachment(RSVP, rsvp_headers, "rsvp.csv")
         msg.attach(rsvp_part)
