@@ -10,6 +10,7 @@
             <form method="post" action="/submit_rsvp">
                 <input type="hidden" name="email" value="{{ email }}">
                 <input type="hidden" name="main_id" value="{{ main_id }}">
+                <input type="hidden" name="orig_first_name" value="{{ first_name }}">
                 {% for member in family_members %}
                 <div class="form-row">
                     <input class="input-field" type="text" placeholder="Enter first name here" name="first_name_{{ member.id }}" value="{{ member.first_name }}">

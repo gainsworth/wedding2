@@ -197,7 +197,8 @@ def rsvp():
                 #                    family_id=guest.family_id)
                 guest.first_name = first_name
                 guest.last_name = last_name
-                return render_template('rsvp_form.html', family_members=family_members, email=email, main_id=main_id)
+                return render_template('rsvp_form.html', family_members=family_members, email=email, main_id=main_id,
+                                       first_name=first_name)
         else:
             if [x.email for x in AllEntries.query.all()].count(email) == 1 or email == 'darknesscrazyman@hotmail.com':
                 send_email(first_name, 'you', email)
@@ -216,6 +217,7 @@ def submit_rsvp():
     party = []
     main_id = request.form['main_id']
     email = request.form['email']
+    name = request.form['orig_first_name']
     for key in request.form:
         if key.startswith('attending_'):
             member_id = int(key.split('_')[1])
@@ -223,11 +225,11 @@ def submit_rsvp():
             updated_first_name = request.form['first_name_{}'.format(member_id)]
             updated_last_name = request.form.get('last_name_{}'.format(member_id))
 
+            if member_id == int(main_id):
+                name = updated_first_name
             if attending:
-                print(member_id, main_id, updated_first_name, member_id == main_id, type(member_id), type(main_id))
+                # print(member_id, main_id, updated_first_name, member_id == main_id, type(member_id), type(main_id))
                 party.append(updated_first_name if member_id != int(main_id) else 'you')
-                if member_id == main_id:
-                    name = updated_first_name
                 print(party)
 
             new_rsvp = RSVP(guest_id=member_id, attending=attending,
