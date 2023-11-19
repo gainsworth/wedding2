@@ -235,6 +235,20 @@ nav .fa{
     height: 100%;
     box-shadow: 5px 5px 15px rgba(0, 0, 0, 0.3);
 }
+/* Define animation */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+/* Apply animation to the box */
+.col-2 {
+    animation: fadeIn 1.5s ease-in-out; /* Adjust the duration and timing function as needed */
+}
 .col-2 h2{
     font-weight: 600;
     text-align: center;
@@ -373,3 +387,4 @@ h3{
 .details h1 {
     font-family: 'Courgette',cursive;
 }
+
