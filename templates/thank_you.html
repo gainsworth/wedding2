@@ -1,13 +1,13 @@
 {% extends 'base.html' %}
 {% block content %}
-    <section class="rsvp" style="background-image: linear-gradient(rgba(20,255,255,0.7),rgba(255,255,255,0.7)),url(../static/images/marmaris.png);">
+    <section class="rsvp" style="background-image: linear-gradient(rgba(20,255,255,0.7),rgba(255,255,255,0.7)),url(../static/images/marmaris.jpg);">
 
         {% include 'navbar.html' %}
 
     <div class="signup-box">
         <div class="col-2">
         <h2>Thank You for Your RSVP, {{ first_name }}!</h2>
-        <p>We've received your response and look forward to seeing {{ party_string }} there!</p>
+        <p>We've received your response and look forward to seeing {{ party_string }} there! A confirmation email has been sent to your email address. Please <strong>check your junk folder</strong> in case you don't see it in your inbox.</p>
         <p>If you have any dietary restrictions or allergies that we should be aware of, please
             don't hesitate to reach out to us. Your comfort and enjoyment are important to us.</p>
         <p>Feel free to send us an email at <a href="mailto:info@georgeandcordelia.co.uk">info@georgeandcordelia.co.uk</a>

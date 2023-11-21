@@ -7,7 +7,7 @@
 .rsvp{
     min-height: 100vh;
     width: 100%;
-    background-image: linear-gradient(rgba(20,255,255,0.7),rgba(255,255,255,0.7)),url(../images/marmaris.png);
+    background-image: linear-gradient(rgba(20,255,255,0.7),rgba(255,255,255,0.7)),url(../images/marmaris.jpg);
     background-position: 0% 90%;
     background-size: cover;
     position: relative;

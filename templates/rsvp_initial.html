@@ -1,6 +1,6 @@
 {% extends 'base.html' %}
 {% block content %}
-    <section class="rsvp" style="background-image: linear-gradient(rgba(20,255,255,0.7),rgba(255,255,255,0.7)),url(../static/images/marmaris.png);">
+    <section class="rsvp" style="background-image: linear-gradient(rgba(20,255,255,0.7),rgba(255,255,255,0.7)),url(../static/images/marmaris.jpg);">
 
         {% include 'navbar.html' %}
     <div class="signup-box">
@@ -8,13 +8,13 @@
             <h2>RSVP</h2>
             <form action="\" method="post">
                 <label>First Name</label>
-                <input type="text" placeholder="Paige" id="first_name" name="first_name" class="input-field">
+                <input type="text" placeholder="Paige" id="first_name" name="first_name" class="input-field" required>
 
                 <label>Last Name</label>
-                <input type="text" placeholder="Turner" id="last_name" name="last_name" class="input-field">
+                <input type="text" placeholder="Turner" id="last_name" name="last_name" class="input-field" required>
 
                 <label>Email</label>
-                <input type="email" placeholder="paige.turner@gmail.com" id="email" name="email" class="input-field">
+                <input type="email" placeholder="paige.turner@gmail.com" id="email" name="email" class="input-field" required>
 
                 <div class="row">
                     <input type="checkbox" checked>

@@ -182,14 +182,14 @@ def rsvp():
             main_id = guest.id
             family_members = Guest.query.filter_by(family_id=guest.family_id).all()
             if len(family_members) == 1:
-                if [x.email for x in AllEntries.query.all()].count(email) == 1 \
-                        or email == 'darknesscrazyman@hotmail.com':
-                    send_email(first_name, 'you', email)
-                    send_george_email(first_name, 'you', attach_csvs=True)
                 new_rsvp = RSVP(guest_id=guest.id, attending=True,
                                 updated_first_name=first_name, updated_last_name=last_name, email=email)
                 db.session.add(new_rsvp)
                 db.session.commit()
+                if [x.email for x in AllEntries.query.all()].count(email) == 1 \
+                        or email == 'darknesscrazyman@hotmail.com':
+                    send_email(first_name, 'you', email)
+                    send_george_email(first_name, 'you', attach_csvs=True)
                 return render_template('thank_you.html', party_string='you', first_name=first_name)
             else:
                 # main_guest = Guest(number=guest.number, first_name=first_name, last_name=last_name, enterable='Yes',
@@ -241,8 +241,8 @@ def submit_rsvp():
     party.sort(key=lambda k: 0 if k == 'you' else 1)
     party_string = ', '.join(party[:-1]) + f'{" and " + party[-1] if len(party) > 1 else ""}'
     if [x.email for x in AllEntries.query.all()].count(email) == 1 or email == 'darknesscrazyman@hotmail.com':
-        send_email(party[0], party_string, email)
-        send_george_email(party[0], party_string, attach_csvs=True)
+        send_email(name, party_string, email)
+        send_george_email(name, party_string, attach_csvs=True)
 
     return render_template('thank_you.html', party_string=party_string, first_name=name)
     # return redirect(url_for('thank_you', party_string=party_string))
