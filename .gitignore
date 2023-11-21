@@ -1,3 +1,11 @@
 # Project exclude paths
 /venv/
 .env
+/static/images/marmaris copy.jpg
+/compress_image.py
+/custom_qr.png
+/guest_list 2 (Autosaved) shit.xlsx
+/static/images/backup/marmaris.png
+/static/images/marmaris 2.png
+/qr_code.py
+/old_templates/base.html
