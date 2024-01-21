@@ -135,6 +135,14 @@ class AllEntries(db.Model):
     time_of_entry = db.Column(db.String, nullable=True)
 
 
+class Gifts(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    first_name = db.Column(db.String, nullable=False)
+    last_name = db.Column(db.String, nullable=True)
+    email = db.Column(db.String, nullable=True)
+    time_of_entry = db.Column(db.String, nullable=True)
+
+
 @app.route("/home")
 def index():
     return render_template("index.html")
@@ -150,7 +158,7 @@ def terms_and_conditions():
     return render_template("terms_and_conditions.html")
 
 
-@app.route('/', methods=['GET', 'POST'])
+@app.route('/rsvp', methods=['GET', 'POST'])
 def rsvp():
     if request.method == 'POST':
         first_name = request.form['first_name'].title().strip()
@@ -212,6 +220,23 @@ def rsvp():
     return render_template('rsvp_initial.html')
 
 
+@app.route('/', methods=['GET', 'POST'])
+def gifts():
+    if request.method == 'POST':
+        first_name = request.form['first_name'].title().strip()
+        last_name = request.form['last_name'].title().strip()
+        email = request.form['email'].strip()
+
+        new_entry = Gifts(first_name=first_name, last_name=last_name,
+                          email=email, time_of_entry=str(datetime.now()))
+        db.session.add(new_entry)
+        db.session.commit()
+
+        return render_template('gifts_page.html', first_name=', ' + first_name if first_name else '')
+
+    return render_template('gifts_initial.html')
+
+
 @app.route('/submit_rsvp', methods=['POST'])
 def submit_rsvp():
     party = []
@@ -245,6 +270,19 @@ def submit_rsvp():
         send_george_email(name, party_string, attach_csvs=True)
 
     return render_template('thank_you.html', party_string=party_string, first_name=name)
+    # return redirect(url_for('thank_you', party_string=party_string))
+
+
+# @app.route('/thank_you')
+# def thank_you():
+#     party_string = request.args.get('party_string', default="")
+#     return render_template('thank_you.html', party_string=party_string)
+
+
+@app.route('/thanks_for_gift', methods=['POST'])
+def thanks_for_gift():
+    first_name = request.form['first_name']
+    return render_template('thank_you_for_gift.html', first_name=first_name)
     # return redirect(url_for('thank_you', party_string=party_string))
 
 

@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+{% block content %}
+    <section class="rsvp" style="background-image: linear-gradient(rgba(20,255,255,0.7),rgba(255,255,255,0.7)),url(../static/images/marmaris.jpg);">
+
+        {% include 'navbar.html' %}
+
+        <div class="signup-box">
+            <div class="col-2">
+                <h2>Thank You for Your Gift{{ first_name }}!</h2>
+                <p>We are incredibly grateful for your thoughtful gift. Your generosity and kindness mean a lot to us.</p>
+                <p>Your contribution will help make our wedding day even more special, and we appreciate your support.</p>
+                <p>Once again, thank you from the bottom of our hearts!</p>
+            </div>
+        </div>
+    </section>
+{% endblock %}

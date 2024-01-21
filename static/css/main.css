@@ -4,6 +4,37 @@
     box-sizing: border-box;
     font-family: 'Poppins', sans-serif;
 }
+
+.payment-options {
+    display: block;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+.payment-option {
+    text-align: center;
+    margin: 10px;
+    padding: 10px;
+    border: 1px solid #000;
+    border-radius: 5px;
+    text-decoration: none;
+    color: #000;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background-color: #fff;
+    transition: background-color 0.3s ease;
+}
+
+/* Adjust the max-width and other styles as needed */
+.logo {
+    max-width: 100px; /* You can adjust the size by changing the value */
+    height: auto; /* Maintain the aspect ratio */
+    display: block; /* Change to block-level element for vertical stacking */
+    margin: 0 auto; /* Center the logos horizontally within their containers */
+}
+
+
 .rsvp{
     min-height: 100vh;
     width: 100%;
@@ -387,4 +418,39 @@ h3{
 .details h1 {
     font-family: 'Courgette',cursive;
 }
+
+/* Add this CSS to style the payment options */
+
+
+.payment-option:hover {
+    background-color: #f0f0f0; /* Change the background color on hover */
+}
+
+.payment-option img {
+    max-width: 100px; /* Adjust the max-width as needed */
+    margin-bottom: 5px; /* Add some spacing between the image and text */
+}
+
+.payment-option span {
+    font-weight: 600;
+    font-size: 16px;
+}
+
+.bank-transfer {
+    background-color: #f5f5f5; /* Background color for the bank transfer section */
+    padding: 20px;
+    text-align: left;
+}
+
+.bank-transfer h4 {
+    font-weight: 600;
+    font-size: 18px;
+    margin-bottom: 10px;
+}
+
+.bank-transfer p {
+    font-size: 16px;
+    margin-bottom: 5px;
+}
+
 

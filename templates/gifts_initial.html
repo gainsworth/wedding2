@@ -1,0 +1,28 @@
+{% extends 'base.html' %}
+{% block content %}
+    <section class="rsvp" style="background-image: linear-gradient(rgba(20,255,255,0.7),rgba(255,255,255,0.7)),url(../static/images/marmaris.jpg);">
+
+        {% include 'navbar.html' %}
+    <div class="signup-box">
+        <div class="col-2">
+            <h2>Contribute to our wedding gift!</h2>
+            <form action="\" method="post">
+                <label>First Name</label>
+                <input type="text" placeholder="Optional" id="first_name" name="first_name" class="input-field">
+
+                <label>Last Name</label>
+                <input type="text" placeholder="Optional" id="last_name" name="last_name" class="input-field">
+
+                <label>Email</label>
+                <input type="email" placeholder="Optional" id="email" name="email" class="input-field">
+
+                <button type="submit">Continue to Gifts Page</button>
+            </form>
+
+
+        </div>
+    </div>
+
+</div>
+
+               {% endblock %}

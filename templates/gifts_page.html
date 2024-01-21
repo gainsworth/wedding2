@@ -1,0 +1,37 @@
+{% extends 'base.html' %}
+{% block content %}
+<section class="rsvp" style="background-image: linear-gradient(rgba(20,255,255,0.7),rgba(255,255,255,0.7)),url(../static/images/marmaris.jpg);">
+
+    {% include 'navbar.html' %}
+    <div class="signup-box">
+        <div class="col-2">
+            <h2>Thank you{{ first_name }}!</h2>
+            <h3>Please select a payment method</h3>
+            <div class="payment-options">
+                <div class="payment-option">
+                    <a href="https://paypal.me/georgeandcordelia" target="_blank">
+                        <img src="{{ url_for('static', filename='images/paypal_logo.png') }}" alt="PayPal" class="logo">
+                    </a>
+                </div>
+
+                <div class="payment-option">
+                    <a href="https://app.collectionpot.com/pot/georgeandcordelia" target="_blank">
+                        <img src="{{ url_for('static', filename='images/collection_pot_logo.jpeg') }}" alt="Collection Pot" class="logo">
+                    </a>
+                </div>
+
+                <div class="payment-option bank-transfer">
+                    <h4>Bank Transfer Details:</h4>
+                    <p>Account Name: George Ainsworth</p>
+                    <p>Account Number: 46112018</p>
+                    <p>Sort Code: 04-00-04</p>
+                </div>
+                <form action="/thanks_for_gift" method="post">
+                    <input type="hidden" name="first_name" value="{{ first_name }}">
+                    <button type="submit">All done!</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
