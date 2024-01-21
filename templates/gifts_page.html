@@ -6,7 +6,7 @@
     <div class="signup-box">
         <div class="col-2">
             <h2>Thank you{{ first_name }}!</h2>
-            <h3>Please select a payment method</h3>
+            <h4>How would you like to send your gift?</h4>
             <div class="payment-options">
                 <div class="payment-option">
                     <a href="https://paypal.me/georgeandcordelia" target="_blank">
@@ -16,9 +16,9 @@
 
                 <div class="payment-option bank-transfer">
                     <h4>Bank Transfer Details:</h4>
-                    <p>Account Name: George Ainsworth</p>
-                    <p>Account Number: 46112018</p>
-                    <p>Sort Code: 04-00-04</p>
+                    <p>Account Name: George Ainsworth<br>
+                    Account Number: 46112018<br>
+                    Sort Code: 04-00-04</p>
                 </div>
                 <form action="/thanks_for_gift" method="post">
                     <input type="hidden" name="first_name" value="{{ first_name }}">
